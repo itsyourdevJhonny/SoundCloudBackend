@@ -1,5 +1,5 @@
 # Use official OpenJDK image
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:21-jdk
 
 # Set working directory
 WORKDIR /app
@@ -21,4 +21,4 @@ RUN ./gradlew clean build -x test
 EXPOSE 8080
 
 # Run Spring Boot jar
-ENTRYPOINT ["java","-jar","build/libs/yourapp-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","build/libs/soundcloudbackend-1.0-SNAPSHOT.jar"]

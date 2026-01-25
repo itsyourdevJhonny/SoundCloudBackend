@@ -2,13 +2,6 @@ server:
   port: 8080
   address: 0.0.0.0
 
-#soundcloud:
-#  client-id: m5Qp0wfCviuGkjI5o0p8pqU45fPntoUD
-#  client-secret: vvLecroWc0rVOTDfFy1FIXWBCGOyBLFB
-#  redirect-uri: http://192.168.43.195:8080/callback
-#  code-verifier: B4TApZHhLvvggUSsryIFGLrxLrRP3cGtucLU2FFR5rY
-#  state: MY_RANDOM_STATE
-
 soundcloud:
   client-id: ${SOUNDCLOUD_CLIENT_ID}
   client-secret: ${SOUNDCLOUD_CLIENT_SECRET}

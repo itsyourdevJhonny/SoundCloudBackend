@@ -21,6 +21,10 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.15.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
 }
+tasks.withType<Jar> {
+    archiveBaseName.set("soundcloudbackend")
+    archiveVersion.set("1.0-SNAPSHOT")
+}
 
 tasks.test {
     useJUnitPlatform()

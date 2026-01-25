@@ -25,6 +25,6 @@ class SoundCloudCallbackController(
 
         authService.exchangeCodeForToken(code)
 
-        return ResponseEntity.ok("Token successfully obtained! Now you can call /api/search?q=...")
+        return ResponseEntity.ok("Token successfully obtained! Your Token: ${authService.getAccessToken()}")
     }
 }
