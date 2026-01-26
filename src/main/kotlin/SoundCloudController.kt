@@ -54,4 +54,33 @@ class SoundCloudController(
             return ResponseEntity.ok(tracks)
         }
     }
+
+    @GetMapping("/track/playable")
+    fun getPlayableTrack(@RequestParam trackId: Long): ResponseEntity<Map<String, String>> {
+        val accessToken = authService.getAccessToken() // safe on server
+
+        val client = OkHttpClient.Builder()
+            .followRedirects(true)  // follow 302 automatically
+            .build()
+
+        val streamUrl = "https://api.soundcloud.com/tracks/$trackId/stream"
+
+        val request = Request.Builder()
+            .url(streamUrl)
+            .addHeader("Authorization", "OAuth $accessToken")
+            .get()
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                return ResponseEntity.status(response.code).body(
+                    mapOf("error" to response.body?.string().orEmpty())
+                )
+            }
+
+            // response.request.url will now be the final redirected URL
+            val playableUrl = response.request.url.toString()
+            return ResponseEntity.ok(mapOf("playableUrl" to playableUrl))
+        }
+    }
 }
