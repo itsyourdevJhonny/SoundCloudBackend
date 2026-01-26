@@ -14,9 +14,6 @@ class SoundCloudCallbackController(
 ) {
 
     @GetMapping("callback")
-    /*fun callback(@RequestParam code: String) : ResponseEntity<String> {
-        return ResponseEntity.ok(code)
-    }*/
     fun callback(
         @RequestParam code: String,
         @RequestParam state: String
