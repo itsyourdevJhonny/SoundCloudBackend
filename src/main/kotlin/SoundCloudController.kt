@@ -26,7 +26,7 @@ class SoundCloudController(
         val accessToken = authService.getAccessToken()
 
         val client = OkHttpClient()
-        val url = "https://api.soundcloud.com/tracks?q=$q&limit=10"
+        val url = "https://api.soundcloud.com/tracks?q=$q&limit=50"
 
         val request = Request.Builder()
             .url(url)

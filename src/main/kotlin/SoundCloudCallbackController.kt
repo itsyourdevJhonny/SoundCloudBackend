@@ -62,7 +62,7 @@ class SoundCloudAuthController(
             ?: return ResponseEntity.badRequest()
                 .body("Missing PKCE verifier")
 
-        authService.exchangeCodeForToken(code, verifier)
+//        authService.exchangeCodeForToken(code, verifier)
 
         return ResponseEntity.ok("SoundCloud login successful! Your Token: ${authService.getAccessToken()}")
     }
