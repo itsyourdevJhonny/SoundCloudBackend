@@ -1,6 +1,7 @@
 package org.soundcloud
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -9,9 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.security.MessageDigest
-import java.security.SecureRandom
-import java.util.*
 
 @RestController
 @RequestMapping("/api")
@@ -37,11 +35,11 @@ class SoundCloudController(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw RuntimeException("Search failed: ${response.code}")
             val json = response.body?.string() ?: ""
-            val map = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                .adapter(Map::class.java)
-                .fromJson(json) ?: emptyMap<String, Any>()
 
-            val collection = map["collection"] as? List<Map<String, Any>> ?: emptyList()
+            val listAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                .adapter<List<Map<String, Any>>>(Types.newParameterizedType(List::class.java, Map::class.java))
+
+            val collection = listAdapter.fromJson(json) ?: emptyList()
 
             val tracks = collection.map { track ->
                 TrackResponse(
