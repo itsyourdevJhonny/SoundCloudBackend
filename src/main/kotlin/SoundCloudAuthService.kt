@@ -45,7 +45,7 @@ class SoundCloudAuthService(
             .build()
 
         val request = Request.Builder()
-            .url("https://api.soundcloud.com/oauth/token")
+            .url("https://api.soundcloud.com/oauth2/token")
             .post(form)
             .header("Accept", "application/json")
             .build()
