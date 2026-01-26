@@ -28,18 +28,19 @@ class SoundCloudAuthService(
         throw RuntimeException("Access token missing! Exchange authorization code first.")
     }
 
-    fun exchangeCodeForToken(code: String) {
+    fun exchangeCodeForToken(code: String, verifier: String) {
         val client = OkHttpClient()
         val form = FormBody.Builder()
             .add("grant_type", "authorization_code")
             .add("client_id", clientId)
             .add("client_secret", clientSecret)
             .add("redirect_uri", redirectUri)
+            .add("code_verifier", verifier)
             .add("code", code)
             .build()
 
         val request = Request.Builder()
-            .url("https://api.soundcloud.com/oauth/token")
+            .url("https://secure.soundcloud.com/oauth/token")
             .post(form)
             .header("Accept", "application/json")
             .build()

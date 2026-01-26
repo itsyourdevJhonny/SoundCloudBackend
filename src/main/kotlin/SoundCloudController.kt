@@ -19,25 +19,6 @@ class SoundCloudController(
     private val authService: SoundCloudAuthService
 ) {
 
-    @GetMapping("generate")
-    fun generate(): ResponseEntity<String> {
-        val codeVerifier = generateCodeVerifier()
-        val codeChallenge = generateCodeChallenge(codeVerifier)
-
-        return ResponseEntity.ok("Verifier: $codeVerifier \n Challenge: $codeChallenge")
-    }
-
-    fun generateCodeVerifier(): String =
-        ByteArray(32).also { SecureRandom().nextBytes(it) }
-            .let {
-                Base64.getUrlEncoder().encodeToString(it)
-            }
-
-    fun generateCodeChallenge(verifier: String): String {
-        val digest = MessageDigest.getInstance("SHA-256").digest(verifier.toByteArray())
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest)
-    }
-
     @GetMapping("/search")
     fun search(@RequestParam q: String): ResponseEntity<List<TrackResponse>> {
         if (q.isBlank()) return ResponseEntity.badRequest().build()
@@ -45,12 +26,12 @@ class SoundCloudController(
         val accessToken = authService.getAccessToken()
 
         val client = OkHttpClient()
-        val url = "https://api-v2.soundcloud.com/search/tracks?q=$q&limit=10"
+        val url = "https://api.soundcloud.com/tracks?q=$q&limit=10"
 
         val request = Request.Builder()
             .url(url)
-            .addHeader("Authorization", "Bearer $accessToken")
-            .addHeader("Accept", "application/json")
+            .addHeader("Authorization", "OAuth $accessToken")
+            .addHeader("Accept", "application/json; charset=utf-8")
             .build()
 
         client.newCall(request).execute().use { response ->
