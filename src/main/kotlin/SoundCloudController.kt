@@ -47,7 +47,7 @@ class SoundCloudController(
                     title = track["title"] as? String ?: "Unknown",
                     artist = ((track["user"] as? Map<*, *>)?.get("username") as? String) ?: "Unknown",
                     artworkUrl = track["artwork_url"] as? String,
-                    duration = (track["full_duration"] as? Double)?.toLong() ?: 0L,
+                    duration = (track["duration"] as? Double)?.toLong() ?: 0L,
                     permalinkUrl = track["permalink_url"] as? String ?: ""
                 )
             }
